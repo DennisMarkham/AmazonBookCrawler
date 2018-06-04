@@ -1,0 +1,113 @@
+6286 - 15340 = Books
+
+6286 - 6742 = Books Best Sellers
+
+6125 = Books Bestseller Title Span
+
+#productDetailsTable > tbody > tr > td > div > ul > li:nth-child(11)
+
+#iframeContent > b
+
+Working "productLink":
+https://www.amazon.com/gp/product/B079586RDT/ref=s9_acsd_ri_bw_c_x_9_w/132-7929474-9395412?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-9&pf_rd_r=XJT3BEZ4J7XFZ398JJ5H&pf_rd_r=XJT3BEZ4J7XFZ398JJ5H&pf_rd_t=101&pf_rd_p=b8fb56da-1948-401c-abee-e449c9a89865&pf_rd_p=b8fb56da-1948-401c-abee-e449c9a89865&pf_rd_i=283155
+
+Regular url:
+https://www.amazon.com/gp/product/0679882804/ref=s9_acsd_simh_bw_c_x_1_w?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-4&pf_rd_r=3BBVJYVQ11085EGWDW19&pf_rd_r=3BBVJYVQ11085EGWDW19&pf_rd_t=101&pf_rd_p=fe6c1177-031f-40df-b673-4d36cfcdd958&pf_rd_p=fe6c1177-031f-40df-b673-4d36cfcdd958&pf_rd_i=283155
+
+#iframeContent
+
+server.js generated link after modifying for loop:
+amazon.com//gp/product/0544568036/ref=s9_acsd_ri_bw_c_x_19_w/134-0542076-5458654?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-11&pf_rd_r=PA13D2KBZZGXNYYYASZW&pf_rd_r=PA13D2KBZZGXNYYYASZW&pf_rd_t=101&pf_rd_p=3fcbc43c-160c-415c-ae2e-a3186a93e41c&pf_rd_p=3fcbc43c-160c-415c-ae2e-a3186a93e41c&pf_rd_i=283155
+
+First fetched link: https://www.amazon.com/gp/product/B077V4BB1P/ref=s9_acsd_ri_bw_c_x_1_w/131-3035635-1300123?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-8&pf_rd_r=DSCBH2ZGZBA8PKR44MQH&pf_rd_r=DSCBH2ZGZBA8PKR44MQH&pf_rd_t=101&pf_rd_p=b8c0a303-a08e-4b0b-bd49-040811fd7080&pf_rd_p=b8c0a303-a08e-4b0b-bd49-040811fd7080&pf_rd_i=283155
+
+^Links to an audio book
+
+
+
+Links that work with my current scraper model:
+http://www.amazon.com/gp/product/0544568036/ref=s9_acsd_ri_bw_c_x_19_w/134-0542076-5458654?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-11&pf_rd_r=PA13D2KBZZGXNYYYASZW&pf_rd_r=PA13D2KBZZGXNYYYASZW&pf_rd_t=101&pf_rd_p=3fcbc43c-160c-415c-ae2e-a3186a93e41c&pf_rd_p=3fcbc43c-160c-415c-ae2e-a3186a93e41c&pf_rd_i=283155
+
+This one creates a bunch of empty results before finally showing the real thing, and it still looks messed up:
+https://www.amazon.com/gp/product/0679882804/ref=s9_acsd_simh_bw_c_x_2_w?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-3&pf_rd_r=EF0PK69DD4Z4TFP41ARP&pf_rd_r=EF0PK69DD4Z4TFP41ARP&pf_rd_t=101&pf_rd_p=fe185ec9-c8f5-44c0-897e-4c0bde93268c&pf_rd_p=fe185ec9-c8f5-44c0-897e-4c0bde93268c&pf_rd_i=283155
+So does this:
+https://www.amazon.com/gp/product/0679882820/ref=s9_acsd_simh_bw_c_x_3_w?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-3&pf_rd_r=EF0PK69DD4Z4TFP41ARP&pf_rd_r=EF0PK69DD4Z4TFP41ARP&pf_rd_t=101&pf_rd_p=fe185ec9-c8f5-44c0-897e-4c0bde93268c&pf_rd_p=fe185ec9-c8f5-44c0-897e-4c0bde93268c&pf_rd_i=283155
+
+
+Link 1 works.  It prints a bunch of times, but that's because its supposed to do so for every item on the "pre-results"
+array.  So the blank "results" must be what the try-catch thing were there to prevent.
+
+SO WHAT I NEED (in order):
+-only scrape board books
+-A better way for getting dimensions and weight (no idea how to do this)
+-A way to get image
+-Try/catch safeguards. (get the working)
+
+Or no, first I have to get it all to go into one array.  I was creating a bunch of reuslts arrays before.  But moving
+around the console.log statement and the variable declartion has had bizarre results.
+
+Let's try to follow the logic of my program as its written:
+
+
+Declare preresults as an empty array.
+For each "a", get the title, link, and image attribute.
+Then if it doesn't have an undefined title and undefined image, create a variable called productLink
+and an array called results...
+WAIT A MINUTE...this it the problem isn't it?  results[] is created everytime it finds an 
+item in pre-results with a title and image.
+But placing it above the for loop, or even at the top of the program, doesn't help (although if it just above the for loop
+it doesn't seem to hurt either).
+
+So let's start again.
+Declare an empty pre-results array.
+Request the amazon book page.
+Get each (a) and save their link, image, and title (IT WOULD PROBABLY BE BETTER TO ONLY SAVE THEM IF THEY HAVE DEFINED
+IMAGES AND TITLES HERE, SO MOVE THE IF STATEMENT?)
+
+Okay, bracket 111 deleted. If statement moved.  Let's see the results.
+
+Same problem!  WTF!
+
+So let's start again.
+Declare an empty pre-results array.
+Request the amazon book page.
+Get each (a) and save their link, image, and title.  Push those to an array only if the image and title are not undefined.
+So now we've created the preresults array.
+So with that done we create an array called results.  To avoid redundancy, we start at 1 and go up by two in the for loop.
+Each time we create a product link variable using the preresults item. (OT NOTE: I NOTICE I'M MISSING THE TRY/CATCH
+STATEMENT FOR THE FIRST HMTL, BUT IIRC WHEN I HATE THAT THE PROGRAM STOPPED RUNNING.  ANYWAY, BACK ON TOPIC...)
+Then, using the product link to send request, we do the following only if the html is true:
+We gather information from the page and store it in variables.  Then we push it into an array called results.
+Now, in this version, we console log for every push, and THAT IS PROBLEMATIC.  We should console log only when the 
+results array is full.  BUT DOING THIS JUST CAUSES IT TO KEEP RETURNING WITH NOTHING.  
+
+Put the first try/catch back, but same old problem. WTF!!!
+
+
+
+
+Okay, there are 9 opening brackets.  Now how many closing?
+
+10?
+
+Okay, I've got it to function.  But now it just doesn't start.  Why?
+
+What!?  All of the sudden preresults stopped working.  Ugh WTF!
+
+Okay, let's break down how we want this to work again:
+
+First, there's a function called firstScraper.  It calls the url and does everything.  So it needs to be defined,
+and then called.  So since it does everything, firsScraper() should be at the very end, which it is.
+
+So firstScraper gets initialized, and what does it do?
+It goes into the requested url, and if that doesn't work, it starts over, hence the "if (html)" statement.
+If it can make it to the requested url, it cans each "a" tag and stores there stuff in an array.
+
+Once it's gone through all the "a"s, it starts to loop through the preresults.  For each result, it does the secondScraper
+function.
+
+Okay, let's make another version.  
+
+So bizarre, all that work and I'm back to square 1 :/ Same problem
+
+

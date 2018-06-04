@@ -1,0 +1,3 @@
+I have no idea how this app could be extended to other products or other domains, because I can't even find constistency
+in Amazon's book listing pages format.  But obviously it would have something to do with change the request link in
+the first scraper.
